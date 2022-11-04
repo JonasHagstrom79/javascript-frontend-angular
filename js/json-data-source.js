@@ -65,8 +65,19 @@ export class JSONDataSource extends DataSource {
 	* @return a Promise that resolves to an array of My courses (a Miun course with grade included)
 	*/
 	async getMyCourses() {
-		// TODO: In lab 0, implement according to requirements
-		throw Error("Not implemented!");
+		
+		let myCourses = await this.getData()
+		.then(json => json.myCourses);
+		
+
+		for (let course of myCourses) {
+			
+			this.#setCourseData(course)
+			console.log(course) 
+		}
+
+		return myCourses
+		
 	}
 
 	/**
@@ -76,7 +87,11 @@ export class JSONDataSource extends DataSource {
 	*/
 	async getMyCourse(courseCode) {
 		// TODO: In lab 0, implement according to requirements
-		throw Error("Not implemented!");
+		return this.getCourse()
+		.then(myCourses => myCourses.find(
+			course => course.courseCode.toLowerCase() === courseCode.toLowerCase()
+		) || {});
+		
 	}
 
 	/**

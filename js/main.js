@@ -154,7 +154,56 @@ function createTableForMyCourses(courses, table) {
 */
 function createGradeOptions(selectElement, grades, selectedGrade) {
 	// TODO: In lab 0, implement according to requirements
+		
+	//console.log(grades) // kommer in
+	
+	// Create the td to hold the select element
+	var td = document.createElement("td"); //Rullgardinen
+	
+	// Create the select element
+	var select = document.createElement("select");
+	console.log("DFHDTNFSJFJ")
+	var selectElement = document.createElement("selectElement")	
+	for (let i = 0; i < grades.length; i++) {
+		const grade = grades[i].toUpperCase();
+		var selectedGrade = document.createElement("selectedGrade")
+		selectedGrade.innerText = grade;
+		selectedGrade.id = grades[i].toUpperCase();
+		
+		selectElement.appendChild(selectedGrade)
+		console.log(grade) //bokstav
+		console.log(selectedGrade.id) //bokstav	
+	}
+	td.appendChild(selectElement)
+	//table.appendChild(td)
+	/** 
+	for (let grade of grades) {
+		const option = document.createElement("option");
+		option.innerText = grade;
+		option.id = grades[grade]
+		select.appendChild(option)
+	}
+
+	td.appendChild(select)
+	*/
+
+	/** 
+	for(let grade of grades) {
+		const selectElement = document.createElement("selectElement");
+		
+		selectElement.innerText = grade
+		selectElement.selectElement = grade
+		
+		
+		select.appendChild(selectElement);
+	}	
+	
+	td.appendChild(select);
+	*/
+	//selectElement.appendChild(selectedGrade);
+
 }
+
 
 /**
 * Create a data cell (td element) with the specified text
