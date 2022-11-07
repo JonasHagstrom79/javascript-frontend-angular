@@ -73,7 +73,7 @@ export class JSONDataSource extends DataSource {
 		for (let course of myCourses) {
 			
 			this.#setCourseData(course)
-			console.log(course) 
+			console.log(course) // REmove befor submitting
 		}
 
 		return myCourses

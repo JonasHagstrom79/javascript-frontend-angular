@@ -2,7 +2,7 @@ import { Atlas } from './atlas.js';
 import { JSONDataSource } from './json-data-source.js';
 
 /** The data source for our Atlas */
-const dataSource = new JSONDataSource("../miun-db.json");
+const dataSource = new JSONDataSource("miun-db.json");
 
 /** The Atlas instance */
 const atlas = new Atlas(dataSource);
@@ -154,56 +154,89 @@ function createTableForMyCourses(courses, table) {
 */
 function createGradeOptions(selectElement, grades, selectedGrade) {
 	// TODO: In lab 0, implement according to requirements
-		
+	// Add each grade as an option in the select element and set
+	// the course grade as the selected grade in the list	
 	//console.log(grades) // kommer in
 	
 	// Create the td to hold the select element
-	var td = document.createElement("td"); //Rullgardinen
+	//var td = document.createElement("td"); //Rullgardinen
 	
 	// Create the select element
-	var select = document.createElement("select");
-	console.log("DFHDTNFSJFJ")
-	var selectElement = document.createElement("selectElement")	
-	for (let i = 0; i < grades.length; i++) {
-		const grade = grades[i].toUpperCase();
-		var selectedGrade = document.createElement("selectedGrade")
-		selectedGrade.innerText = grade;
-		selectedGrade.id = grades[i].toUpperCase();
-		
-		selectElement.appendChild(selectedGrade)
-		console.log(grade) //bokstav
-		console.log(selectedGrade.id) //bokstav	
-	}
-	td.appendChild(selectElement)
-	//table.appendChild(td)
-	/** 
-	for (let grade of grades) {
-		const option = document.createElement("option");
-		option.innerText = grade;
-		option.id = grades[grade]
-		select.appendChild(option)
-	}
+	//var select = document.createElement("select");
+	console.log("DFHDTNFSJFJ") //REMOVE
+	console.log("Grades: "+grades) //REMOVE
 
-	td.appendChild(select)
-	*/
-
-	/** 
-	for(let grade of grades) {
-		const selectElement = document.createElement("selectElement");
-		
-		selectElement.innerText = grade
-		selectElement.selectElement = grade
-		
-		
-		select.appendChild(selectElement);
-	}	
+	// Create the td to hold the select element
+	const td = document.createElement("td");
 	
-	td.appendChild(select);
-	*/
-	//selectElement.appendChild(selectedGrade);
+	let index = 0;
+	for(let grade of grades) {
+
+		// Create an option element
+		const option = document.createElement("option");
+
+		// Add the text of the grade to the option
+		option.innerText = grade.toUpperCase();
+		//option.innerText = selectedGrade
+		//option.selected=selectedGrade
+		//option.text = selectedGrade
+		//option.innerText = getGrade(index)
+		console.log("selectedGrade :"+selectedGrade)
+		console.log("option.innerText(grade): "+option.innerText) //REMOVE
+		// Add the id of the grade a the id of the element
+		option.id = index
+		index ++;
+		console.log("option.id: "+option.id) //REMOVE
+		//var a = "a"
+		//selectedGrade = a//selectCourse(index, a)
+		//option.value = selectedGrade
+		console.log("option.value: "+option.value) //REMOVE
+
+		// Add the option the selectElement
+		selectElement.appendChild(option)
+		
+	}
+
+	
+
+	//selectedGrade = document.getElementById("grade");
+	//selectedGrade.options[selectedGrade.options.selectedIndex].selected = true;
+	//var myGradesdCourses = atlas.getMyCourses()
+	//selectedGrade = myGradesdCourses.grade
+
+	//selectedGrade = atlas.myCourses.where()
+	//selectedGrade = atlas.myCourses.grade.findIndex(grade => index ) //HÄR!!!
+	
+	
+	// Den vll fortfarande inte displaya ngra betyg
+	selectElement.addEventListener("change", event => {
+		// Get the index of the selected option
+		const selectedIndex = selectElement.options.selectedIndex;
+		console.log(selectedIndex)
+		const newGradeId = selectElement.options[selectedIndex].id; //?
+		grades.id = newGradeId; //?
+		console.log("newGradeId :"+newGradeId)
+	});
+
+	selectElement.selectedIndex //= selectedGrade
+	console.log("selectElement.selectedIndex: "+selectElement.selectedIndex)
+	selectedGrade = grades
+
+	td.appendChild(selectElement);
 
 }
 
+/**
+ * Selects the grade to display from myCourses
+ * @param id the id
+ * @param valueToSelect the value
+ */
+function getGrade(id) {
+	//let element = document.getElementById(id);
+	//element.value = valueToSelect
+	//if id == 0
+	return atlas.myCourses.grade.find(grade => grade == id).grade;
+}
 
 /**
 * Create a data cell (td element) with the specified text
