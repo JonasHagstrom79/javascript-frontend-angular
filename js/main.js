@@ -153,23 +153,11 @@ function createTableForMyCourses(courses, table) {
 * @param selectedGrade the grade to be the selected option in the selectElement
 */
 function createGradeOptions(selectElement, grades, selectedGrade) {
-	// TODO: In lab 0, implement according to requirements
-	// Add each grade as an option in the select element and set
-	// the course grade as the selected grade in the list	
-	//console.log(grades) // kommer in
 	
-	// Create the td to hold the select element
-	//var td = document.createElement("td"); //Rullgardinen
-	
-	// Create the select element
-	//var select = document.createElement("select");
-	console.log("DFHDTNFSJFJ") //REMOVE
-	console.log("Grades: "+grades) //REMOVE
-
 	// Create the td to hold the select element
 	const td = document.createElement("td");
 	
-	let index = 0;
+	// For each grade 
 	for(let grade of grades) {
 
 		// Create an option element
@@ -177,65 +165,18 @@ function createGradeOptions(selectElement, grades, selectedGrade) {
 
 		// Add the text of the grade to the option
 		option.innerText = grade.toUpperCase();
-		//option.innerText = selectedGrade
-		//option.selected=selectedGrade
-		//option.text = selectedGrade
-		//option.innerText = getGrade(index)
-		console.log("selectedGrade :"+selectedGrade)
-		console.log("option.innerText(grade): "+option.innerText) //REMOVE
-		// Add the id of the grade a the id of the element
-		option.id = index
-		index ++;
-		console.log("option.id: "+option.id) //REMOVE
-		//var a = "a"
-		//selectedGrade = a//selectCourse(index, a)
-		//option.value = selectedGrade
-		console.log("option.value: "+option.value) //REMOVE
-
+		
 		// Add the option the selectElement
 		selectElement.appendChild(option)
 		
-	}
+	}	
 
+	// Set selectedGrade from myCourses
+	selectElement.value = selectedGrade
 	
-
-	//selectedGrade = document.getElementById("grade");
-	//selectedGrade.options[selectedGrade.options.selectedIndex].selected = true;
-	//var myGradesdCourses = atlas.getMyCourses()
-	//selectedGrade = myGradesdCourses.grade
-
-	//selectedGrade = atlas.myCourses.where()
-	//selectedGrade = atlas.myCourses.grade.findIndex(grade => index ) //HÄR!!!
-	
-	
-	// Den vll fortfarande inte displaya ngra betyg
-	selectElement.addEventListener("change", event => {
-		// Get the index of the selected option
-		const selectedIndex = selectElement.options.selectedIndex;
-		console.log(selectedIndex)
-		const newGradeId = selectElement.options[selectedIndex].id; //?
-		grades.id = newGradeId; //?
-		console.log("newGradeId :"+newGradeId)
-	});
-
-	selectElement.selectedIndex //= selectedGrade
-	console.log("selectElement.selectedIndex: "+selectElement.selectedIndex)
-	selectedGrade = grades
-
+	// Add selectElement to td
 	td.appendChild(selectElement);
 
-}
-
-/**
- * Selects the grade to display from myCourses
- * @param id the id
- * @param valueToSelect the value
- */
-function getGrade(id) {
-	//let element = document.getElementById(id);
-	//element.value = valueToSelect
-	//if id == 0
-	return atlas.myCourses.grade.find(grade => grade == id).grade;
 }
 
 /**

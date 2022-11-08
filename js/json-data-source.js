@@ -66,14 +66,15 @@ export class JSONDataSource extends DataSource {
 	*/
 	async getMyCourses() {
 		
+		// Get myCourses
 		let myCourses = await this.getData()
 		.then(json => json.myCourses);
 		
-
+		// Get the data from Courses applied to myCourses
 		for (let course of myCourses) {
 			
 			this.#setCourseData(course)
-			console.log(course) // REmove befor submitting
+			
 		}
 
 		return myCourses
@@ -86,8 +87,8 @@ export class JSONDataSource extends DataSource {
 	* @return a Promise that resolves to a My course object or {} if the course doesn't exist
 	*/
 	async getMyCourse(courseCode) {
-		// TODO: In lab 0, implement according to requirements
-		return this.getCourse()
+		
+		return this.getMyCourses() 
 		.then(myCourses => myCourses.find(
 			course => course.courseCode.toLowerCase() === courseCode.toLowerCase()
 		) || {});
