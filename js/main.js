@@ -239,6 +239,13 @@ function searchCourses() {
 	createTable();
 }
 
+async function updateMyCourse() {
+
+}
+
+async function deleteMyCourse() {
+
+}
 // atlas.addMyCourse("dtw00", "A")
 
 // window.onload = gradeoptTest();

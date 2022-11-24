@@ -93,6 +93,7 @@ export class RESTDataSource extends DataSource {
 	async deleteMyCourse(courseCode) {
 		
 		return this.getData('/api/courses/my/' + courseCode, 'DELETE');
+
 	}
 
 	/**
@@ -104,7 +105,9 @@ export class RESTDataSource extends DataSource {
 	*/
 	updateMyCourse(courseCode, grade) {
 		// TODO: In lab 1, implement according to requirements
-		throw Error("Not implemented!");
+		//throw Error("Not implemented!");
+		return this.getData('/api/courses/my/' +courseCode, 'PUT',
+		{'courseCode': courseCode, 'grade': grade});
 	}
 
 	/**
@@ -113,6 +116,6 @@ export class RESTDataSource extends DataSource {
 	*/
 	async getGrades() {
 		// TODO: In lab 1, implement according to requirements
-		throw Error("Not implemented!");
+		return this.getData('/api/grades')
 	}
 }
