@@ -1,8 +1,10 @@
 import { Atlas } from './atlas.js';
-import { JSONDataSource } from './json-data-source.js';
+import { RESTDataSource } from './rest-data-source.js';
+//import { JSONDataSource } from './json-data-source.js';
 
 /** The data source for our Atlas */
-const dataSource = new JSONDataSource("miun-db.json");
+//const dataSource = new JSONDataSource("miun-db.json"); //TODO:remoce
+const dataSource = new RESTDataSource("http://localhost:3000");
 
 /** The Atlas instance */
 const atlas = new Atlas(dataSource);
@@ -49,9 +51,12 @@ function starterFunction() {
 	
 	// Get the list of courses from Atlas
 	const coursesPromise = currentPage == MY_COURSES_PAGE ? atlas.getMyCourses() : atlas.getCourses();
+	console.log(coursesPromise) //TODO:remove
 	coursesPromise
-	.then(fetchedCourses => {
-		courses = fetchedCourses;
+	.then(async fetchedCourses => {
+		courses = await fetchedCourses.json();
+		console.log(courses)
+		//console.log(courses[0]) //TODO: remove
 		createTable(); // create the table with the fetched courses
 	})
 	.catch(error => console.error(`An error occurd when getting courses from Atlas: ${error}`));
@@ -97,7 +102,8 @@ function createTableForMiunCourses(courses, table) {
 
 		// Populate the row with the data to display
 		createTd(course.courseCode, tr);
-		createTd(course.name, tr);
+		createTd(course.name, tr);		
+		createTd(course.subjectCode, tr)
 		createTd(course.progression, tr);
 		createTd(course.points, tr);
 		createTd(course.institutionCode, tr,
@@ -113,37 +119,66 @@ function createTableForMiunCourses(courses, table) {
 * @param courses an array of My courses to create table rows for
 * @param table the table or the table body to add the rows to
 */
-function createTableForMyCourses(courses, table) {
+async function createTableForMyCourses(courses, table) {
 	// Get grades from Atlas and then create the table
-	atlas.getGrades().then(grades => {
-		// For each My course create a table row with course data
-		courses.forEach(course => {
-			// Make a table row
-			const tr = document.createElement("tr");
+	const grades = await atlas.getGrades().then(grades => grades.json())
 
-			// Populate the row with the data to display
-			createTd(course.courseCode, tr);
-			createTd(course.name, tr);
-			
-			// Create a td to hold the select element for selecting grade
-			const td = document.createElement("td");
-			td.classList.add("center");
+	// For each My course create a table row with course data
+	courses.forEach(course => {
+	 		// Make a table row
+	 	const tr = document.createElement("tr");
 
-			// Create a select element for the grades that can be selected
-			const selectElement = document.createElement("select");
-			selectElement.id = "select_" + course.courseCode;
+	 	// Populate the row with the data to display
+	 	createTd(course.courseCode, tr);
+	 	createTd(course.name, tr);
 			
-			// Add each grade as an option in the select element and set
-			// the course grade as the selected grade in the list
-			createGradeOptions(selectElement, grades, course.grade);
-			
-			td.appendChild(selectElement);
-			tr.appendChild(td);
+	 	// Create a td to hold the select element for selecting grade
+	 	const td = document.createElement("td");
+	 	td.classList.add("center");
 
-			// Add the row to the table
-			table.appendChild(tr);
-		});
+	 	// Create a select element for the grades that can be selected
+	 	const selectElement = document.createElement("select");
+	 	selectElement.id = "select_" + course.courseCode;
+			
+	 	// Add each grade as an option in the select element and set
+	 	// the course grade as the selected grade in the list
+	 	createGradeOptions(selectElement, grades, course.grade);
+		
+		// Eventlistenser to select option
+		selectElement.addEventListener('change', updateMyCourse);
+
+	 	td.appendChild(selectElement);
+	 	tr.appendChild(td);
+
+		// Add delete-button to the row
+		const _td = document.createElement('td');
+		const btnDelete = document.createElement('button');
+		btnDelete.innerText = 'Radera';
+		btnDelete.courseCode = course.courseCode;
+		btnDelete.addEventListener('click', deleteMyCourse, false);
+		_td.appendChild(btnDelete);
+		tr.appendChild(_td);
+
+	 	// Add the row to the table
+	 	table.appendChild(tr);
 	});
+	// });
+	// courses.forEach(async course => {
+    //     // Make a table row
+    //     const tr = document.createElement("tr");
+
+    //     // Populate the row with the data to display
+    //     createTd(course.courseCode, tr);
+    //     createTd(course.name, tr);
+    //     createTd(course.subject, tr);
+    //     createTd(course.progression, tr);
+    //     createTd(course.points, tr);
+    //     createTd(course.institutionCode, tr,
+    //         element => element.classList.add("center"));
+
+    //     // Add the row to the table
+    //     table.appendChild(tr);
+    // });
 }
 
 /**
@@ -203,5 +238,36 @@ function searchCourses() {
 	// A re-creation of the table will filter out the courses not matching the searched value
 	createTable();
 }
+
+// atlas.addMyCourse("dtw00", "A")
+
+// window.onload = gradeoptTest();
+// function gradeoptTest() {
+// 	$.getJSON("http://localhost:3000/api/grades", function(data) {
+// 		var options = data;
+// 		console.log(data);
+// 		$('#select').empty();
+// 		$.each(options, function(i, p) {
+//     		$('#select').append($('<option></option>').val(p).html(p));
+// 			//return i; // Testar här
+			
+// 		});		
+		
+// 	});
+	
+// 	//console.log(i);
+	
+// }
+
+function testR() {
+
+}
+
+function myfunction() {
+
+	document.write("welcome to Javatpoint");
+}
+
+
 
 document.addEventListener('DOMContentLoaded', starterFunction);

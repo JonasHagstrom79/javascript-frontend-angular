@@ -12,6 +12,7 @@
 
 		<!-- JavaScript -->
 		<script src="js/main.js" type="module"></script>
+		<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	</head>
 
 	<body>
@@ -42,8 +43,73 @@
 				<tbody id="courses_table">
 				</tbody>
 			</table>
-		</main>
+			<h2>Lägg till kurs</h2>
+        	<form method="post" action="http://localhost:3000/api/courses/my">
+            	<label for="courseCode">Kurskod: </label>
+            	<input type="text" id="courseCode" name="courseCode">	
+				
+            	<label for="grade">Betyg: </label>
+				<!--<select name="grade" id="grade"> -->
+				<select id="select" onchange="myfunction()"> <!--HÄR!!!!-->
+					<option>Choose a number</option>
+				</select>
 
+				<!-- <script>
+					document.getElementById("select").addEventListener("change", getSelection());
+
+					$(function getSelection() {
+					var x = document.getElementById("select");
+					console.log(x)
+					});
+				
+				</script> -->
+
+				
+				<!--<script>
+					$(function(){
+					  // bind change event to select
+					  $('#dynamic_select').on('change', function () {
+						  var url = $(this).val(); // get selected value
+						  if (url) { // require a URL
+							  window.location = url; // redirect
+						  }
+						  return false;
+					  });
+					});
+				</script> -->
+
+				<!--	<option value ="A">A</option>
+					<option value ="B">B</option>
+					<option value ="C">C</option>
+					<option value ="D">D</option>
+					<option value ="E">E</option>
+					<option value ="F">F</option>
+					<option value ="Fx">Fx</option>
+					<option value ="-">-</option>
+				</select>-->
+            	<br>            	
+            	<input type="submit" value="Lägg till kurs" onclick="myfunction()" value="Display">
+
+				<script>
+					$(function(){
+					  // bind change event to select
+					  $('#dynamic_select').on('change', function () {
+						  var url = $(this).val(); // get selected value
+						  if (url) { // require a URL
+							  window.location = url; // redirect
+						  }
+						  return false;
+					  });
+					});
+				</script>
+        	</form>
+			<h1>FRRHERHEH</h1>
+			<p>Click the following button to see the function in action</p>
+			<input type ="button" onclick ="myfunction()" value ="Display">
+		</main>
+		<ul id="testlist"></ul>
+		
+		
 		<footer>
 			<p class="center">
 				Denna sida läser data från filen

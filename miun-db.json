@@ -9,7 +9,8 @@
     "b",
     "a"
   ],
-  "myCourses": [ {
+  "myCourses": [ 
+    {
     "courseCode": "IK006G",
     "grade": "A"
   },

@@ -1,5 +1,7 @@
 import { DataSource } from "./data-source.js";
 
+//const serverURL = "http://localhost:3000"; //TODO:remove!
+
 /**
  * This class represents a data source where a REST API is used 
  * to get data from.
@@ -23,7 +25,7 @@ export class RESTDataSource extends DataSource {
 	 */
 	 async getData(endpoint = '', method = 'GET', body = {}) {
 		return super.getData(endpoint, method, body);
-		// TODO: In lab 1, make changes (if necessary)
+		
 	}
 
     /**
@@ -31,8 +33,9 @@ export class RESTDataSource extends DataSource {
 	* @return a Promise that resolves to an array of courses
 	*/
 	async getCourses() {
-		return this.getData()
-		.then(json => json.courses); // only return the array with Miun courses from the json
+
+		return this.getData('/api/courses');
+
 	}
 
 	/**
@@ -40,11 +43,10 @@ export class RESTDataSource extends DataSource {
 	* @param courseCode the course code of the course to get
 	* @return a Promise that resolves to a course object or {} if the course doesn't exist
 	*/
-	async getCourse(courseCode) {
-		return this.getCourses()
-		.then(courses => courses.find(
-			course => course.courseCode.toLowerCase() === courseCode.toLowerCase() // return where course code match
-		) || {}); // or return {} if no course with that course code exists
+	async getCourse(courseCode) {		
+		
+		return this.getData('/api/courses' + courseCode)
+
 	}
 
 	/**
@@ -52,7 +54,9 @@ export class RESTDataSource extends DataSource {
 	* @return a Promise that resolves to an array of My courses (a Miun course with grade included)
 	*/
 	async getMyCourses() {
-		// TODO: In lab 1, implement according to requirements
+		
+		return this.getData('/api/courses/my');
+		
 	}
 
 	/**
@@ -60,9 +64,10 @@ export class RESTDataSource extends DataSource {
 	* @param courseCode the course code of the course to get
 	* @return a Promise that resolves to a My course object or {} if the course doesn't exist
 	*/
-	async getMyCourse(courseCode) {
-		// TODO: In lab 1, implement according to requirements
-		throw Error("Not implemented!");
+	async getMyCourse(courseCode) {		
+
+		return this.getData('/api/courses/my/:'+courseCode);
+		
 	}
 
 	/**
@@ -73,9 +78,11 @@ export class RESTDataSource extends DataSource {
 	*         message explaining why the course couldn't be added
 	*/
 	async addMyCourse(courseCode, grade) {
-		// TODO: In lab 1, implement according to requirements
-		throw Error("Not implemented!");
-	}
+		
+		return this.getData('/api/courses/my', 'POST', 
+		{'courseCode': courseCode, 'grade': grade});
+
+	}	
 
 	/**
 	* Delete a My course from the REST API.
@@ -84,8 +91,8 @@ export class RESTDataSource extends DataSource {
 	*         message explaining why the course couldn't be deleted
 	*/
 	async deleteMyCourse(courseCode) {
-		// TODO: In lab 1, implement according to requirements
-		throw Error("Not implemented!");
+		
+		return this.getData('/api/courses/my/' + courseCode, 'DELETE');
 	}
 
 	/**
