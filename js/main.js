@@ -1,9 +1,7 @@
 import { Atlas } from './atlas.js';
 import { RESTDataSource } from './rest-data-source.js';
-//import { JSONDataSource } from './json-data-source.js';
 
 /** The data source for our Atlas */
-//const dataSource = new JSONDataSource("miun-db.json"); //TODO:remoce
 const dataSource = new RESTDataSource("http://localhost:3000");
 
 /** The Atlas instance */
@@ -122,6 +120,7 @@ function createTableForMiunCourses(courses, table) {
 async function createTableForMyCourses(courses, table) {
 	// Get grades from Atlas and then create the table
 	const grades = await atlas.getGrades().then(grades => grades.json())
+	console.log(grades); //TODO:remove
 
 	// For each My course create a table row with course data
 	courses.forEach(course => {
@@ -138,7 +137,7 @@ async function createTableForMyCourses(courses, table) {
 
 	 	// Create a select element for the grades that can be selected
 	 	const selectElement = document.createElement("select");
-	 	selectElement.id = "select_" + course.courseCode;
+		selectElement.id = "select_" + course.courseCode;
 			
 	 	// Add each grade as an option in the select element and set
 	 	// the course grade as the selected grade in the list
@@ -158,10 +157,23 @@ async function createTableForMyCourses(courses, table) {
 		btnDelete.addEventListener('click', deleteMyCourse, false);
 		_td.appendChild(btnDelete);
 		tr.appendChild(_td);
-
+		
 	 	// Add the row to the table
 	 	table.appendChild(tr);
+		
 	});
+
+	console.log(grades); //TODO:REmove!	
+	const select = document.getElementById('newMyCourseSelect');
+	console.log("Utanför");
+	console.log(select); //Skriver ut alla options	
+	//createGradeOptions(select, grades, ); // TODO: får inte in grade
+
+	// click event to submit button in the form
+	if (currentPage.toLocaleLowerCase() == MY_COURSES_PAGE.toLocaleLowerCase()) {
+		document.querySelector('#newMyCourseSubmit').addEventListener('click', addNewMyCourse);
+	}
+
 	// });
 	// courses.forEach(async course => {
     //     // Make a table row
@@ -182,6 +194,66 @@ async function createTableForMyCourses(courses, table) {
 }
 
 /**
+ * Adds a new course to myCourses
+ */
+async function addNewMyCourse() {
+	//
+	const form = document.querySelector('#newMyCourse');
+	const formBody = new FormData(form);
+	
+	const addcourse = await atlas.addMyCourse(formBody.get('courseCode'), formBody.get('grade')).then(res => res.json());
+	console.log(addcourse);
+	courses.push(addcourse); // HÄR!
+
+	//update the ui soehow maybe?
+	updateUI();
+	form.reset();
+}
+
+/**
+ *  Updates a course
+ */
+async function updateMyCourse(e) {
+	console.log('ABC');
+	console.log(e); // Skriver ut #select_KURSKOD
+	//console.log(courseCode);
+	const testar = e.curretTarget.getAttribute("id");
+	console.log(testar);
+	const courseCode = e.curretTarget.getAttribute('id').split('_')[1]; //TODO:Här fungerar ej!!! VAD har du som id?
+	//const c = e.curretTarget.getAttribute('id').split('_')[1];
+	
+	const updateMyCourse = await atlas.updateMyCourse(courseCode, e.curretTarget.value).then(res => res.json());
+	const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == courseCode);
+	// Updates the course
+	courses[updateMyCourseIndex] = updateMyCourse;
+
+}
+
+/**
+ * Deletes a course
+ */
+async function deleteMyCourse(e) {
+	console.log(e);
+	console.log("deleteMyCourse");
+	console.log(e.curretTarget);
+	const deletedMyCourse = await atlas.deleteMyCourse(e.curretTarget.courseCode).then(res => res.json());
+	courses = courses.filter(obj => {
+		return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase();
+	})
+
+	updateUI();
+	//maybe update the ui?
+}
+
+function updateUI() {
+
+	const table = document.getElementById("courses_table");
+	table.innerHTML = null;
+	createTableForMyCourses(courses, table);
+}
+
+
+/**
 * Create option elements for the specified select element.
 * @param selectElement the select element to create and add option elements for
 * @param grades an array of grades to create option elements for
@@ -191,7 +263,7 @@ function createGradeOptions(selectElement, grades, selectedGrade) {
 	
 	// Create the td to hold the select element
 	const td = document.createElement("td");
-	
+		
 	// For each grade 
 	for(let grade of grades) {
 
@@ -208,7 +280,7 @@ function createGradeOptions(selectElement, grades, selectedGrade) {
 
 	// Set selectedGrade from myCourses
 	selectElement.value = selectedGrade
-	
+	console.log(selectElement); //TODO: reove!
 	// Add selectElement to td
 	td.appendChild(selectElement);
 
@@ -239,13 +311,13 @@ function searchCourses() {
 	createTable();
 }
 
-async function updateMyCourse() {
+// async function updateMyCourse() {
 
-}
+// }
 
-async function deleteMyCourse() {
+// async function deleteMyCourse() {
 
-}
+// }
 // atlas.addMyCourse("dtw00", "A")
 
 // window.onload = gradeoptTest();
