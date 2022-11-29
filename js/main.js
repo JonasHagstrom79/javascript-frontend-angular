@@ -144,7 +144,8 @@ async function createTableForMyCourses(courses, table) {
 	 	createGradeOptions(selectElement, grades, course.grade);
 		
 		// Eventlistenser to select option
-		selectElement.addEventListener('change', updateMyCourse);
+		//selectElement.addEventListener('change', updateMyCourse); //Original
+		selectElement.addEventListener('change', event => updateMyCourse(course.courseCode));
 
 	 	td.appendChild(selectElement);
 	 	tr.appendChild(td);
@@ -154,24 +155,30 @@ async function createTableForMyCourses(courses, table) {
 		const btnDelete = document.createElement('button');
 		btnDelete.innerText = 'Radera';
 		btnDelete.courseCode = course.courseCode;
-		btnDelete.addEventListener('click', deleteMyCourse, false);
+		//btnDelete.addEventListener('click', deleteMyCourse, false); //Original
+		btnDelete.addEventListener('click', event => deleteMyCourse(course.courseCode));
 		_td.appendChild(btnDelete);
 		tr.appendChild(_td);
 		
 	 	// Add the row to the table
 	 	table.appendChild(tr);
 		
+		return course; // TEST!!
+		
 	});
+
+	var a = ['-', 'fx', 'f', 'e', 'd', 'c', 'b', 'a']; //TODO:remove!
 
 	console.log(grades); //TODO:REmove!	
 	const select = document.getElementById('newMyCourseSelect');
 	console.log("Utanför");
 	console.log(select); //Skriver ut alla options	
-	//createGradeOptions(select, grades, ); // TODO: får inte in grade
+	createGradeOptions(select, grades, a); // TODO: får inte in grade
 
 	// click event to submit button in the form
 	if (currentPage.toLocaleLowerCase() == MY_COURSES_PAGE.toLocaleLowerCase()) {
-		document.querySelector('#newMyCourseSubmit').addEventListener('click', addNewMyCourse);
+		document.querySelector('#newMyCourseSubmit').addEventListener('click', addNewMyCourse); // Original
+		//document.querySelector('#newMyCourseSubmit').addEventListener('change', event => addNewMyCourse);
 	}
 
 	// });
@@ -214,16 +221,30 @@ async function addNewMyCourse() {
  *  Updates a course
  */
 async function updateMyCourse(e) {
-	console.log('ABC');
-	console.log(e); // Skriver ut #select_KURSKOD
-	//console.log(courseCode);
-	const testar = e.curretTarget.getAttribute("id");
-	console.log(testar);
-	const courseCode = e.curretTarget.getAttribute('id').split('_')[1]; //TODO:Här fungerar ej!!! VAD har du som id?
-	//const c = e.curretTarget.getAttribute('id').split('_')[1];
+
+	console.log("Entering updateMyCourse");	 //TODO: remove!
+	console.log(e); //Får in kurskoden
 	
-	const updateMyCourse = await atlas.updateMyCourse(courseCode, e.curretTarget.value).then(res => res.json());
-	const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == courseCode);
+
+	//const courseCode = e.curretTarget.getAttribute('id').split('_')[1]; //Original
+	//const courseCode = e.getElementById(newMyCourseSelect);
+	//const t = e.getElementById(e);
+	const grade = "B"; //TODO: hitar inte EJ hårdkodad grade!!!!!
+	const gradeTest = document.getElementById('newMyCourseSelect');
+	const select = document.getElementById('newMyCourseSelect');
+	//select = e.currentTarget.value;
+	console.log(e.currentTarget);
+	console.log(gradeTest);
+	console.log(select);
+	//console.log("coursecode: "+ courseCode); //TODO: remove!
+	console.log(grade);
+	//console.log(t);
+	//const c = e.curretTarget.getAttribute('id').split('_')[1]; //Original
+	
+	//const updateMyCourse = await atlas.updateMyCourse(courseCode, e.curretTarget.value).then(res => res.json()); //Original
+	const updateMyCourse = await atlas.updateMyCourse(e, grade).then(res => res.json());// FÅR bara in hårdkodade!!	
+	const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == e); // FUNGERAR HÄR!!!!
+	//const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == courseCode); // Original
 	// Updates the course
 	courses[updateMyCourseIndex] = updateMyCourse;
 
@@ -233,15 +254,17 @@ async function updateMyCourse(e) {
  * Deletes a course
  */
 async function deleteMyCourse(e) {
-	console.log(e);
+	
 	console.log("deleteMyCourse");
-	console.log(e.curretTarget);
-	const deletedMyCourse = await atlas.deleteMyCourse(e.curretTarget.courseCode).then(res => res.json());
+	console.log(e);
+	//const deletedMyCourse = await atlas.deleteMyCourse(e.curretTarget.courseCode).then(res => res.json()); //original
+	const deletedMyCourse = await atlas.deleteMyCourse(e).then(res => res.json());
 	courses = courses.filter(obj => {
-		return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase();
+	 	return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase();
 	})
 
-	updateUI();
+	//updateUI();
+	//location.reload();
 	//maybe update the ui?
 }
 
@@ -260,16 +283,16 @@ function updateUI() {
 * @param selectedGrade the grade to be the selected option in the selectElement
 */
 function createGradeOptions(selectElement, grades, selectedGrade) {
-	
+	//console.log("entering createGradeOptions") //TODO:Remove!
 	// Create the td to hold the select element
 	const td = document.createElement("td");
 		
 	// For each grade 
 	for(let grade of grades) {
-
+		//console.log("Entering for-loop") //TODO:Remove!
 		// Create an option element
 		const option = document.createElement("option");
-
+		//console.log(option) //TODO:Remove!
 		// Add the text of the grade to the option
 		option.innerText = grade.toUpperCase();
 		
@@ -280,10 +303,10 @@ function createGradeOptions(selectElement, grades, selectedGrade) {
 
 	// Set selectedGrade from myCourses
 	selectElement.value = selectedGrade
-	console.log(selectElement); //TODO: reove!
+	//console.log(selectElement); //TODO: reove!
 	// Add selectElement to td
 	td.appendChild(selectElement);
-
+	//console.log("Exiting createGradeOptions") //TODO:Remove!
 }
 
 /**
