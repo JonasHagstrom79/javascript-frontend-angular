@@ -93,7 +93,7 @@ export class RESTDataSource extends DataSource {
 	async deleteMyCourse(courseCode) {
 		
 		return this.getData('/api/courses/my/' + courseCode, 'DELETE');
-
+		
 	}
 
 	/**

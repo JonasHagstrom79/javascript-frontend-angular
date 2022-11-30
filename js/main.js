@@ -163,48 +163,27 @@ async function createTableForMyCourses(courses, table) {
 	 	// Add the row to the table
 	 	table.appendChild(tr);
 		
-		return course; // TEST!!
+		//return course; // TEST!!
 		
 	});
 
-	var a = ['-', 'fx', 'f', 'e', 'd', 'c', 'b', 'a']; //TODO:remove!
-
-	console.log(grades); //TODO:REmove!	
-	const select = document.getElementById('newMyCourseSelect');
-	console.log("Utanför");
-	console.log(select); //Skriver ut alla options	
-	createGradeOptions(select, grades, a); // TODO: får inte in grade
+	// Creates gradeoptions for (to be)added course	
+	const select = document.getElementById('newMyCourseSelect');	
+	createGradeOptions(select, grades, grades); 
 
 	// click event to submit button in the form
 	if (currentPage.toLocaleLowerCase() == MY_COURSES_PAGE.toLocaleLowerCase()) {
 		document.querySelector('#newMyCourseSubmit').addEventListener('click', addNewMyCourse); // Original
 		//document.querySelector('#newMyCourseSubmit').addEventListener('change', event => addNewMyCourse);
 	}
-
-	// });
-	// courses.forEach(async course => {
-    //     // Make a table row
-    //     const tr = document.createElement("tr");
-
-    //     // Populate the row with the data to display
-    //     createTd(course.courseCode, tr);
-    //     createTd(course.name, tr);
-    //     createTd(course.subject, tr);
-    //     createTd(course.progression, tr);
-    //     createTd(course.points, tr);
-    //     createTd(course.institutionCode, tr,
-    //         element => element.classList.add("center"));
-
-    //     // Add the row to the table
-    //     table.appendChild(tr);
-    // });
+	
 }
 
 /**
  * Adds a new course to myCourses
  */
 async function addNewMyCourse() {
-	
+	console.log("Entering addNewMyCourse") //TODO:remove!
 	const form = document.querySelector('#newMyCourse');
 	const formBody = new FormData(form);
 	
@@ -215,6 +194,7 @@ async function addNewMyCourse() {
 	//update the ui soehow maybe?
 	updateUI();
 	form.reset();
+	console.log("Exiting addNewMyCourse") //TODO:remove!
 }
 
 /**
@@ -248,11 +228,24 @@ async function deleteMyCourse(e) {
 	console.log(e);
 	//const deletedMyCourse = await atlas.deleteMyCourse(e.curretTarget.courseCode).then(res => res.json()); //original
 	const deletedMyCourse = await atlas.deleteMyCourse(e).then(res => res.json());
-	courses = courses.filter(obj => {
-	 	return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase();
-	})
+	//return deletedMyCourse
+	console.log("Array med kurser:");
+	console.log(courses);
+	const result = courses.filter(course => course.courseCode !== deletedMyCourse.courseCode);
+	console.log("REsult:");
+	console.log(result);
 
-	location.reload();
+	//location.reload();
+	return result;
+	
+	
+	courses = courses.filter(obj => { //Original
+		console.log(obj)
+		
+	  	//return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase(); //Original
+	}); //Original
+
+	//location.reload();
 	//updateUI();
 	//location.reload();
 	//maybe update the ui?
