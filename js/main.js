@@ -204,7 +204,7 @@ async function createTableForMyCourses(courses, table) {
  * Adds a new course to myCourses
  */
 async function addNewMyCourse() {
-	//
+	
 	const form = document.querySelector('#newMyCourse');
 	const formBody = new FormData(form);
 	
@@ -218,34 +218,23 @@ async function addNewMyCourse() {
 }
 
 /**
- *  Updates a course
+ *  Updates a course grade with selected grade
  */
 async function updateMyCourse(e) {
 
-	console.log("Entering updateMyCourse");	 //TODO: remove!
-	console.log(e); //Får in kurskoden
-	
+	// Gets the coursecode 
+	const code = e
 
-	//const courseCode = e.curretTarget.getAttribute('id').split('_')[1]; //Original
-	//const courseCode = e.getElementById(newMyCourseSelect);
-	//const t = e.getElementById(e);
-	const grade = "B"; //TODO: hitar inte EJ hårdkodad grade!!!!!
-	const gradeTest = document.getElementById('newMyCourseSelect');
-	const select = document.getElementById('newMyCourseSelect');
-	//select = e.currentTarget.value;
-	console.log(e.currentTarget);
-	console.log(gradeTest);
-	console.log(select);
-	//console.log("coursecode: "+ courseCode); //TODO: remove!
-	console.log(grade);
-	//console.log(t);
-	//const c = e.curretTarget.getAttribute('id').split('_')[1]; //Original
+	// Gets the grade
+	const grade = document.getElementById(`select_`+code); //NYTT2022-11-29
 	
-	//const updateMyCourse = await atlas.updateMyCourse(courseCode, e.curretTarget.value).then(res => res.json()); //Original
-	const updateMyCourse = await atlas.updateMyCourse(e, grade).then(res => res.json());// FÅR bara in hårdkodade!!	
-	const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == e); // FUNGERAR HÄR!!!!
-	//const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == courseCode); // Original
-	// Updates the course
+	// Gets the value from select element select option
+	const value = grade.value	
+
+	// Upddates course grade
+	const updateMyCourse = await atlas.updateMyCourse(e, value).then(res => res.json());
+	const updateMyCourseIndex = courses.findIndex(obj => obj.courseCode == e); 
+	
 	courses[updateMyCourseIndex] = updateMyCourse;
 
 }
@@ -263,6 +252,7 @@ async function deleteMyCourse(e) {
 	 	return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase();
 	})
 
+	location.reload();
 	//updateUI();
 	//location.reload();
 	//maybe update the ui?
@@ -283,16 +273,13 @@ function updateUI() {
 * @param selectedGrade the grade to be the selected option in the selectElement
 */
 function createGradeOptions(selectElement, grades, selectedGrade) {
-	//console.log("entering createGradeOptions") //TODO:Remove!
-	// Create the td to hold the select element
-	const td = document.createElement("td");
-		
+				
 	// For each grade 
 	for(let grade of grades) {
-		//console.log("Entering for-loop") //TODO:Remove!
+		
 		// Create an option element
 		const option = document.createElement("option");
-		//console.log(option) //TODO:Remove!
+		
 		// Add the text of the grade to the option
 		option.innerText = grade.toUpperCase();
 		
@@ -302,11 +289,8 @@ function createGradeOptions(selectElement, grades, selectedGrade) {
 	}	
 
 	// Set selectedGrade from myCourses
-	selectElement.value = selectedGrade
-	//console.log(selectElement); //TODO: reove!
-	// Add selectElement to td
-	td.appendChild(selectElement);
-	//console.log("Exiting createGradeOptions") //TODO:Remove!
+	selectElement.value = selectedGrade	
+	
 }
 
 /**
@@ -333,43 +317,5 @@ function searchCourses() {
 	// A re-creation of the table will filter out the courses not matching the searched value
 	createTable();
 }
-
-// async function updateMyCourse() {
-
-// }
-
-// async function deleteMyCourse() {
-
-// }
-// atlas.addMyCourse("dtw00", "A")
-
-// window.onload = gradeoptTest();
-// function gradeoptTest() {
-// 	$.getJSON("http://localhost:3000/api/grades", function(data) {
-// 		var options = data;
-// 		console.log(data);
-// 		$('#select').empty();
-// 		$.each(options, function(i, p) {
-//     		$('#select').append($('<option></option>').val(p).html(p));
-// 			//return i; // Testar här
-			
-// 		});		
-		
-// 	});
-	
-// 	//console.log(i);
-	
-// }
-
-function testR() {
-
-}
-
-function myfunction() {
-
-	document.write("welcome to Javatpoint");
-}
-
-
 
 document.addEventListener('DOMContentLoaded', starterFunction);
