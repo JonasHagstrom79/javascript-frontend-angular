@@ -123,30 +123,30 @@ async function createTableForMyCourses(courses, table) {
 	
 	// For each My course create a table row with course data
 	courses.forEach(course => {
-	 		// Make a table row
-	 	const tr = document.createElement("tr");
+		// Make a table row
+		const tr = document.createElement("tr");
 
-	 	// Populate the row with the data to display
-	 	createTd(course.courseCode, tr);
-	 	createTd(course.name, tr);
+		// Populate the row with the data to display
+		createTd(course.courseCode, tr);
+		createTd(course.name, tr);
 			
-	 	// Create a td to hold the select element for selecting grade
-	 	const td = document.createElement("td");
-	 	td.classList.add("center");
+		// Create a td to hold the select element for selecting grade
+		const td = document.createElement("td");
+		td.classList.add("center");
 
-	 	// Create a select element for the grades that can be selected
-	 	const selectElement = document.createElement("select");
+		// Create a select element for the grades that can be selected
+		const selectElement = document.createElement("select");
 		selectElement.id = "select_" + course.courseCode;
 			
-	 	// Add each grade as an option in the select element and set
-	 	// the course grade as the selected grade in the list
-	 	createGradeOptions(selectElement, grades, course.grade);
+		// Add each grade as an option in the select element and set
+		// the course grade as the selected grade in the list
+		createGradeOptions(selectElement, grades, course.grade);
 		
 		// Eventlistenser to select option		
-		selectElement.addEventListener('change', event => updateMyCourse(course.courseCode));
+		selectElement.addEventListener('change', _event => updateMyCourse(course.courseCode));
 
-	 	td.appendChild(selectElement);
-	 	tr.appendChild(td);
+		td.appendChild(selectElement);
+		tr.appendChild(td);
 
 		// Add delete-button to the row
 		const _td = document.createElement('td');
@@ -154,12 +154,12 @@ async function createTableForMyCourses(courses, table) {
 		btnDelete.innerText = 'Radera';
 		btnDelete.courseCode = course.courseCode;
 		// Add listener to the button
-		btnDelete.addEventListener('click', event => deleteMyCourse(course.courseCode));
+		btnDelete.addEventListener('click', _event => deleteMyCourse(course.courseCode));
 		_td.appendChild(btnDelete);
 		tr.appendChild(_td);
-		
-	 	// Add the row to the table
-	 	table.appendChild(tr);		
+
+		// Add the row to the table
+		table.appendChild(tr);		
 		
 	});
 
@@ -185,7 +185,7 @@ async function addNewMyCourse() {
 	const form = document.querySelector('#newMyCourse');
 	const formBody = new FormData(form);
 	
-	const addcourse = await atlas.addMyCourse(formBody.get('courseCode'), formBody.get('grade')).then(res => res.json());
+	await atlas.addMyCourse(formBody.get('courseCode'), formBody.get('grade')).then(res => res.json());
 	
 	// Refreshes the page
 	location.reload();
