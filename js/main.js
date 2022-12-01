@@ -120,8 +120,7 @@ function createTableForMiunCourses(courses, table) {
 async function createTableForMyCourses(courses, table) {
 	// Get grades from Atlas and then create the table
 	const grades = await atlas.getGrades().then(grades => grades.json())
-	console.log(grades); //TODO:remove
-
+	
 	// For each My course create a table row with course data
 	courses.forEach(course => {
 	 		// Make a table row
@@ -143,8 +142,7 @@ async function createTableForMyCourses(courses, table) {
 	 	// the course grade as the selected grade in the list
 	 	createGradeOptions(selectElement, grades, course.grade);
 		
-		// Eventlistenser to select option
-		//selectElement.addEventListener('change', updateMyCourse); //Original
+		// Eventlistenser to select option		
 		selectElement.addEventListener('change', event => updateMyCourse(course.courseCode));
 
 	 	td.appendChild(selectElement);
@@ -155,15 +153,13 @@ async function createTableForMyCourses(courses, table) {
 		const btnDelete = document.createElement('button');
 		btnDelete.innerText = 'Radera';
 		btnDelete.courseCode = course.courseCode;
-		//btnDelete.addEventListener('click', deleteMyCourse, false); //Original
+		// Add listener to the button
 		btnDelete.addEventListener('click', event => deleteMyCourse(course.courseCode));
 		_td.appendChild(btnDelete);
 		tr.appendChild(_td);
 		
 	 	// Add the row to the table
-	 	table.appendChild(tr);
-		
-		//return course; // TEST!!
+	 	table.appendChild(tr);		
 		
 	});
 
@@ -171,11 +167,12 @@ async function createTableForMyCourses(courses, table) {
 	const select = document.getElementById('newMyCourseSelect');	
 	createGradeOptions(select, grades, grades); 
 
-	// click event to submit button in the form
+	// Click event to submit button in the form
 	if (currentPage.toLocaleLowerCase() == MY_COURSES_PAGE.toLocaleLowerCase()) {
-		document.querySelector('#newMyCourseSubmit').addEventListener('click', addNewMyCourse); // Original
-		//document.querySelector('#newMyCourseSubmit').addEventListener('change', event => addNewMyCourse);
-	}
+
+		document.querySelector('#newMyCourseSubmit').addEventListener('click', addNewMyCourse);
+
+	};
 	
 }
 
@@ -183,18 +180,16 @@ async function createTableForMyCourses(courses, table) {
  * Adds a new course to myCourses
  */
 async function addNewMyCourse() {
-	console.log("Entering addNewMyCourse") //TODO:remove!
+	
+	// Gets the data fron the html-form
 	const form = document.querySelector('#newMyCourse');
 	const formBody = new FormData(form);
 	
 	const addcourse = await atlas.addMyCourse(formBody.get('courseCode'), formBody.get('grade')).then(res => res.json());
-	console.log(addcourse);
-	courses.push(addcourse); // HÄR!
-
-	//update the ui soehow maybe?
-	updateUI();
-	form.reset();
-	console.log("Exiting addNewMyCourse") //TODO:remove!
+	
+	// Refreshes the page
+	location.reload();
+	form.reset();	
 }
 
 /**
@@ -224,40 +219,17 @@ async function updateMyCourse(e) {
  */
 async function deleteMyCourse(e) {
 	
-	console.log("deleteMyCourse");
-	console.log(e);
-	//const deletedMyCourse = await atlas.deleteMyCourse(e.curretTarget.courseCode).then(res => res.json()); //original
+	// Deletes the course from the event e
 	const deletedMyCourse = await atlas.deleteMyCourse(e).then(res => res.json());
-	//return deletedMyCourse
-	console.log("Array med kurser:");
-	console.log(courses);
+	
+	// Returns the courses
 	const result = courses.filter(course => course.courseCode !== deletedMyCourse.courseCode);
-	console.log("REsult:");
-	console.log(result);
-
-	//location.reload();
-	return result;
 	
+	// Refreshes the page
+	location.reload();
 	
-	courses = courses.filter(obj => { //Original
-		console.log(obj)
-		
-	  	//return obj.courseCode.toLocaleLowerCase() !== deletedMyCourse.courseCode.toLocaleLowerCase(); //Original
-	}); //Original
-
-	//location.reload();
-	//updateUI();
-	//location.reload();
-	//maybe update the ui?
+	return result;	
 }
-
-function updateUI() {
-
-	const table = document.getElementById("courses_table");
-	table.innerHTML = null;
-	createTableForMyCourses(courses, table);
-}
-
 
 /**
 * Create option elements for the specified select element.

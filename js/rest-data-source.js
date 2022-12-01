@@ -1,6 +1,5 @@
 import { DataSource } from "./data-source.js";
 
-//const serverURL = "http://localhost:3000"; //TODO:remove!
 
 /**
  * This class represents a data source where a REST API is used 
@@ -45,7 +44,7 @@ export class RESTDataSource extends DataSource {
 	*/
 	async getCourse(courseCode) {		
 		
-		return this.getData('/api/courses' + courseCode)
+		return this.getData('/api/courses' + courseCode);
 
 	}
 
@@ -104,10 +103,10 @@ export class RESTDataSource extends DataSource {
 	*         message explaining why the course's grade couldn't be updated
 	*/
 	updateMyCourse(courseCode, grade) {
-		// TODO: In lab 1, implement according to requirements
-		//throw Error("Not implemented!");
+		
 		return this.getData('/api/courses/my/' +courseCode, 'PUT',
 		{'courseCode': courseCode, 'grade': grade});
+
 	}
 
 	/**
@@ -115,7 +114,8 @@ export class RESTDataSource extends DataSource {
 	* @return a Promise that resolves to an array of grades
 	*/
 	async getGrades() {
-		// TODO: In lab 1, implement according to requirements
-		return this.getData('/api/grades')
+		
+		return this.getData('/api/grades');
+
 	}
 }
