@@ -239,21 +239,23 @@ async function deleteMyCourse(e) {
 * @param selectedGrade the grade to be the selected option in the selectElement
 */
 function createGradeOptions(selectElement, grades, selectedGrade) {
-				
+		
 	// For each grade 
 	for(let grade of grades) {
 		
 		// Create an option element
-		const option = document.createElement("option");
+		const option = document.createElement("option");		
 		
 		// Add the text of the grade to the option
-		option.innerText = grade.toUpperCase();
+		option.innerText = grade.toUpperCase(); 
+		//option.innerText = grade;
 		
 		// Add the option the selectElement
 		selectElement.appendChild(option)
 		
 	}	
-
+	console.log("grades: ")
+	console.log(grades)
 	// Set selectedGrade from myCourses
 	selectElement.value = selectedGrade	
 	
