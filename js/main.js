@@ -2,8 +2,8 @@ import { Atlas } from './atlas.js';
 import { RESTDataSource } from './rest-data-source.js';
 
 /** The data source for our Atlas */
-//const dataSource = new RESTDataSource("https://caha1906-lab1-backend-dt190g.azurewebsites.net/");
-const dataSource = new RESTDataSource("http://localhost:3000");
+const dataSource = new RESTDataSource("https://caha1906-lab2-backend-dt190g.azurewebsites.net/");
+//const dataSource = new RESTDataSource("http://localhost:3000");
 
 /** The Atlas instance */
 const atlas = new Atlas(dataSource);
