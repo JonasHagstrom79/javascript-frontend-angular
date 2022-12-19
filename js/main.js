@@ -144,7 +144,7 @@ async function createTableForMyCourses(courses, table) {
 		createGradeOptions(selectElement, grades, course.grade);
 		
 		// Eventlistenser to select option		
-		selectElement.addEventListener('change', _event => updateMyCourse(course.courseCode));
+		selectElement.addEventListener('change', () => updateMyCourse(course.courseCode));
 
 		td.appendChild(selectElement);
 		tr.appendChild(td);
@@ -155,7 +155,7 @@ async function createTableForMyCourses(courses, table) {
 		btnDelete.innerText = 'Radera';
 		btnDelete.courseCode = course.courseCode;
 		// Add listener to the button
-		btnDelete.addEventListener('click', _event => deleteMyCourse(course.courseCode));
+		btnDelete.addEventListener('click', () => deleteMyCourse(course.courseCode));
 		_td.appendChild(btnDelete);
 		tr.appendChild(_td);
 
