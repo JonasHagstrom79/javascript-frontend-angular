@@ -1,0 +1,43 @@
+<header>
+    <h1 class="center">Mina kurser</h1>
+
+    <p>Detta är mina kurser:</p>
+
+    <nav>
+        <a href="index.html">Alla kurser</a>
+    </nav>
+</header>
+
+<main>
+    <div class="search-container">
+        <label>Sök kurs: <input type="text" id="search" placeholder="kurskod eller namn...">
+        </label>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <td>Kurskod</td>
+                <td class="course-name">Namn</td>
+                <td class="center">Mitt betyg</td>
+            </tr>
+        </thead>
+        <tbody id="courses_table">
+        </tbody>
+    </table>
+    <br>
+    <div>
+        <h3>Lägg till kurs</h3>
+        <form id="newMyCourse">
+            <label>Kurskod: <input type="text" name="courseCode" placeholder="ange kurskod"/></label>					
+            <label>Betyg: <select id="newMyCourseSelect" name="grade"></select></label>
+            <input type="button" id="newMyCourseSubmit" value="Lägg till kurs"/>
+        </form>
+    </div>	
+</main>
+<footer>
+    <p class="center">
+        Denna sida läser data från filen
+        <a href="http://localhost:3000/api/courses" target="_blank">miun-db.json</a>.
+    </p>
+</footer>
