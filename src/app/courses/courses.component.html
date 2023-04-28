@@ -27,6 +27,17 @@
         </thead>
         <tbody id="courses_table">
         </tbody>
+        <tbody>
+            <tr *ngFor="let course of courses">
+              <td>{{ course.courseCode }}</td>
+              <td class="course-name">{{ course.name }}</td>
+              <td class="course-subject">{{ course.subjectCode }}</td>
+              <td>{{ course.progression }}</td>
+              <td>{{ course.points }}</td>
+              <td>{{ course.institutionCode }}</td>
+            </tr>
+          </tbody>
+          
     </table>
 </main>
 
@@ -36,3 +47,9 @@
         <a href="http://localhost:3000/api/courses" target="blank">miun-db.json</a>.
     </p>
 </footer>
+<!--<h2>Kurser</h2>
+<ul>
+  <li *ngFor="let course of courses">
+    {{ course.name }} - {{ course.code }}
+  </li>
+</ul>-->
