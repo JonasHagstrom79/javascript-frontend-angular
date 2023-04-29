@@ -8,6 +8,7 @@ import { BackendService } from '../backend.service';
 })
 export class CoursesComponent {
   courses: any[] = [];
+  filteredCourses: any[] = [];
 
   constructor(private backendService: BackendService) {}
 
@@ -15,5 +16,20 @@ export class CoursesComponent {
     this.backendService.getCourses().subscribe((courses) => {
       this.courses = courses;
     });
+  }
+
+  onSearch(searchTerm: string): void {
+    // Logik för att filtrera kurser baserat på söktermen
+    const searchString = searchTerm.toLowerCase();
+    this.filteredCourses = this.courses.filter(course => this.searchFilter(course, searchString));
+  }
+
+  searchFilter(course: { courseCode: string; name: string; }, searchString: string): boolean {
+    const haystack = (
+      course.courseCode + "|" +
+      course.name
+    ).toLowerCase();
+  
+    return searchString == '' || haystack.includes(searchString);
   }
 }
