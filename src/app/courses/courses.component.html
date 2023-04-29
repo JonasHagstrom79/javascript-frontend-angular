@@ -10,6 +10,8 @@
 
 <main>
     <div class="search-container">
+        <app-search-course (search)="onSearch($event)"></app-search-course>
+
         <label>Sök kurs: <input type="text" id="search" placeholder="kurskod eller namn...">
         </label>
     </div>

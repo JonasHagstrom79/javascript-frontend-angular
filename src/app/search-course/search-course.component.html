@@ -1,1 +1,6 @@
 <p>search-course works!</p>
+<label>
+    Sök kurs:
+    <input type="text" placeholder="kurskod eller namn..." [(ngModel)]="searchTerm" (input)="onSearch()">
+  </label>
+  
