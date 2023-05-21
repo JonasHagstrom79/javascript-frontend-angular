@@ -10,10 +10,10 @@
 
 <main>
     <div class="search-container">
-        <app-search-course (search)="onSearch($event)"></app-search-course>
+        <!--HÄR ÄR JAG, FÅ IN KURSERNA NÄR MAN SKRIVER I SÖKRUTAN--> 
+        <!--<app-search-course (search)="onSearch($event)"></app-search-course>-->
 
-        <label>Sök kurs: <input type="text" id="search" placeholder="kurskod eller namn...">
-        </label>
+        
     </div>
     
     <table>
@@ -34,8 +34,8 @@
               <td>{{ course.courseCode }}</td>
               <td class="course-name">{{ course.name }}</td>
               <td class="course-subject">{{ course.subjectCode }}</td>
-              <td>{{ course.progression }}</td>
-              <td>{{ course.points }}</td>
+              <!--<td>{{ course.progression }}</td>-->
+              <!--<td>{{ course.points }}</td>-->
               <td>{{ course.institutionCode }}</td>
             </tr>
           </tbody>
