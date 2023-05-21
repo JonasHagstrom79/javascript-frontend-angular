@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MyCourse } from './my-course';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,30 @@ export class BackendService {
 
   constructor(private http: HttpClient) { }
 
-  // Exempel på att hämta data
+  // Get courses
   getCourses(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/courses`);
+  }
+  
+  // Get my courses
+  getMyCourses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/courses/my`);
+  }
+
+  //updateMyCourses( mycourses: any[]): Observable<any> {
+  //  return this.http.put<any>(`${this.apiUrl}/courses/my`, mycourses);
+  //}
+
+  // Get grades
+  getGrades(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/grades`);
+  }
+  /*
+  updateMyCourse(courseCode: string, updatedCourse: MyCourse): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/courses/my/${courseCode}`, updatedCourse);
+  }*/
+
+  updateMyCourse(courseCode: string, updatedCourse: MyCourse): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/courses/my/${courseCode}`, updatedCourse);
   }
 }
