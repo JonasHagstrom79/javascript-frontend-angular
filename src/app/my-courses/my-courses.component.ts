@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Course } from '../course';
 
 @Component({
   selector: 'app-my-courses',
@@ -7,7 +8,8 @@ import { Component } from '@angular/core';
 })
 export class MyCoursesComponent {
   courses: any[] = [];
-  filteredCourses: any[] = [];
+  filteredCourses: Course[] = [];
+  showAllCourses: boolean = true;
 
   onSearch(searchTerm: string): void {
     // Logik för att filtrera kurser baserat på söktermen
