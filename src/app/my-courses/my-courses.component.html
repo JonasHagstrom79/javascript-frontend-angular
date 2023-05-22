@@ -2,23 +2,16 @@
     <h1 class="center">Mina kurser</h1>
 
     <p>Detta är mina kurser:</p>
-
+   
     <nav>
-        <a href="index.html">Alla kurser</a>
+        <a routerLink="/courses">Alla kurser</a>
     </nav>
 </header>
 
 <main>
     <div class="search-container">
-      <!--  <app-search-course (search)="onSearch($event)"></app-search-course> -->
-
-        <label>Sök kurs: <input type="text" id="search" placeholder="kurskod eller namn...">
-        </label>
+        <app-search-course (searchQuery)="onSearchQueryReceived($event)"></app-search-course>
     </div>
-
-    <!--NYTT HÄRUNDER-->
-    <app-search-course (searchQuery)="onSearch($event)"></app-search-course>
-
 
     <table>
         <thead>
@@ -26,9 +19,39 @@
                 <td>Kurskod</td>
                 <td class="course-name">Namn</td>
                 <td class="center">Mitt betyg</td>
+                <td class="center">Åtgärder</td>
             </tr>
         </thead>
         <tbody id="courses_table">
+            <ng-container *ngIf="showAllMyCourses">
+                <tr *ngFor="let mycourse of mycourses">
+                    <td>{{ mycourse.courseCode }}</td>
+                    <td class="course-name">{{ mycourse.name }}</td>
+                    <!--<td class="center">{{ mycourse.grade }}</td>-->
+                    <td class="center">
+                        <select [(ngModel)]="mycourse.grade" (change)="editGrade(mycourse)">
+                            <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+                        </select>
+                        <!--<button (click)="removeCourse(mycourse)">Ta bort</button>-->
+                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
+                    </td>
+                    <td class="center">
+                        <button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>
+                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
+                      </td>
+                </tr>
+            </ng-container>
+
+            <ng-container *ngIf="!showAllMyCourses">
+                <tr *ngFor="let mycourse of filteredMyCourses">
+                    <td>{{ mycourse.courseCode }}</td>
+                    <td class="course-name">{{ mycourse.name }}</td>
+                    <!--<td class="center">{{ mycourse.grade }}</td>--> <!--Grade vill inte!!-->
+                    <td class="center">
+                        <button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>
+                        <button (click)="editGrade(mycourse)">Redigera Betyg</button>
+                </tr>
+            </ng-container>
         </tbody>
     </table>
     <br>

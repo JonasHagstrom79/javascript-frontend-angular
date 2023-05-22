@@ -21,8 +21,12 @@ export class SearchCourseComponent implements OnInit{
     @Output() searchQuery = new EventEmitter<string>();
   
     searchTerm: string | undefined;
-
+    /*
     onSearch(): void {
-    this.searchQuery.emit(this.searchTerm);
+    this.searchQuery.emit(this.searchTerm);*/
+    onSearch(): void {
+      this.searchQuery.emit(this.searchTerm);
+      console.log(this.searchTerm);//VISAS I KONSOLLEN
+    }
   }
-}
+
