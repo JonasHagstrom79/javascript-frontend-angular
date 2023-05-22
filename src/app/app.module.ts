@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CoursesComponent } from './courses/courses.component';
 import { MyCoursesComponent } from './my-courses/my-courses.component';
 import { SearchCourseComponent } from './search-course/search-course.component';
+import { AddMyCourseComponent } from './add-my-course/add-my-course.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SearchCourseComponent } from './search-course/search-course.component';
     AppComponent,
     CoursesComponent,
     MyCoursesComponent,
-    SearchCourseComponent
+    SearchCourseComponent,
+    AddMyCourseComponent
   ],
   imports: [
     BrowserModule,
