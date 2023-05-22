@@ -13,6 +13,12 @@
         <app-search-course (searchQuery)="onSearchQueryReceived($event)"></app-search-course>
     </div>
 
+    <div class="add-course-container">
+        <app-add-my-course (courseAdded)="onCourseAdded($event)"></app-add-my-course>
+       
+    </div>   
+    
+
     <table>
         <thead>
             <tr>
@@ -37,7 +43,7 @@
                     </td>
                     <td class="center">
                         <!--<button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>-->
-                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>
+                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
                       </td>
                 </tr>
             </ng-container>
@@ -50,19 +56,20 @@
                     <td class="center">
                         <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>
                         <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
+                    </td>
                 </tr>
             </ng-container>
         </tbody>
     </table>
     <br>
-    <div>
-        <h3>Lägg till kurs</h3>
-        <form id="newMyCourse">
-            <label>Kurskod: <input type="text" name="courseCode" placeholder="ange kurskod"/></label>					
-            <label>Betyg: <select id="newMyCourseSelect" name="grade"></select></label>
-            <input type="button" id="newMyCourseSubmit" value="Lägg till kurs"/>
-        </form>
-    </div>	
+   <!-- <div>-->
+   <!--     <h3>Lägg till kurs</h3>-->
+   <!--     <form id="newMyCourse">-->
+   <!--         <label>Kurskod: <input type="text" name="courseCode" placeholder="ange kurskod"/></label>-->					
+    <!--        <label>Betyg: <select id="newMyCourseSelect" name="grade"></select></label>-->
+    <!--        <input type="button" id="newMyCourseSubmit" value="Lägg till kurs"/>-->
+    <!--    </form>-->
+    <!--</div>-->	
 </main>
 <footer>
     <p class="center">

@@ -1,13 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { Course } from '../course'; //TODO:remove?
 import { MyCourse } from '../my-course';
 import { BackendService } from '../backend.service';
+import { AddMyCourseComponent } from '../add-my-course/add-my-course.component';
+
 
 @Component({
   selector: 'app-my-courses',
   templateUrl: './my-courses.component.html',
-  styleUrls: ['./my-courses.component.css']
+  styleUrls: ['./my-courses.component.css'],  
+  //declarations: [AddMyCourseComponent]
 })
+
+//@NgModule({
+//  declarations: [AddMyCourseComponent]
+//})
+
 export class MyCoursesComponent implements OnInit{
   mycourses: MyCourse[] = [];
   filteredMyCourses: MyCourse[] = [];
@@ -24,6 +32,13 @@ export class MyCoursesComponent implements OnInit{
     // Fetch mycourses from backend service during component initialization    
     this.getMyCourses();
     this.getGrades();    
+  }
+
+  onCourseAdded(newCourse: any): void {
+    this.mycourses.push(newCourse);
+    this.backendService.getMyCourses().subscribe(courses => {
+      this.mycourses = courses;
+    });
   }
 
   /**
@@ -165,6 +180,10 @@ async deleteMyCourse(courseCode: string, mycourse: MyCourse): Promise<any> {
   } catch (error) {
     console.error("Failed to remove course:", error);
   }
+
+
+
+
 }
 
   /*
