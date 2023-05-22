@@ -13,6 +13,7 @@ export class MyCoursesComponent implements OnInit{
   filteredMyCourses: MyCourse[] = [];
   showAllMyCourses: boolean = true;
   grades: string[] = [];
+  selectedGrade: string = "";
 
   constructor(private backendService: BackendService) {}
 
@@ -130,26 +131,41 @@ updateGrade(mycourse: MyCourse): void {
   );
 }*/
 
-editGrade(mycourse: MyCourse): void {
-  //const newGrade = prompt("Ange det nya betyget:");
+/**
+ * Updates the grade for a course and updates the backend
+ */
+async editGrade(mycourse: MyCourse): Promise<void> {
+ 
+    // Call BackendService to update the grade on the server
+    try {
+      // Await the completion of the update operation
+      await this.backendService.updateMyCourse(mycourse.courseCode, mycourse).toPromise();
+      console.log("Grade updated successfully");
+    } catch (error) {
+      console.error("Failed to update grade:", error);
+      
+    }
+    
+  }
 
-  //if (newGrade !== null) {
-  //  // Uppdatera betyget för mycourse
-  //  mycourse.grade = newGrade;
 
-    // Anropa BackendService för att uppdatera betyget på servern
-    this.backendService.updateMyCourse(mycourse.courseCode, mycourse).subscribe(
-      () => {
-        console.log("Grade updated successfully");
-      },
-      error => {
-        console.error("Failed to update grade:", error);
-        // Hantera eventuella fel
-      }
-    );
+/**
+ * Removes a course from mycourses array and updates the backend
+ */
+async deleteMyCourse(courseCode: string, mycourse: MyCourse): Promise<any> {
+  try {
+    // Call BackendService to remove the course from server
+    await this.backendService.deleteMyCourse(courseCode, mycourse).toPromise();
+
+    // Update courses in UI or bindings
+    this.mycourses = this.mycourses.filter((course) => course.courseCode !== mycourse.courseCode);
+
+    console.log("Course removed successfully");
+
+  } catch (error) {
+    console.error("Failed to remove course:", error);
   }
 }
-
 
   /*
   onSearch(searchTerm: string): void {
@@ -167,4 +183,4 @@ editGrade(mycourse: MyCourse): void {
     return searchString == '' || haystack.includes(searchString);
   }
 */
-
+}

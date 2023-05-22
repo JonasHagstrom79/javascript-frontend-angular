@@ -37,4 +37,8 @@ export class BackendService {
   updateMyCourse(courseCode: string, updatedCourse: MyCourse): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/courses/my/${courseCode}`, updatedCourse);
   }
+
+  deleteMyCourse(courseCode: string, deletetdCourse: MyCourse): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/courses/my/${courseCode}`, {body:deletetdCourse});
+  }
 }

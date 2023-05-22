@@ -19,7 +19,7 @@
                 <td>Kurskod</td>
                 <td class="course-name">Namn</td>
                 <td class="center">Mitt betyg</td>
-                <td class="center">Åtgärder</td>
+                <!--<td class="center">Åtgärder</td>-->
             </tr>
         </thead>
         <tbody id="courses_table">
@@ -36,8 +36,8 @@
                         <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
                     </td>
                     <td class="center">
-                        <button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>
-                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
+                        <!--<button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>-->
+                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>
                       </td>
                 </tr>
             </ng-container>
@@ -48,8 +48,8 @@
                     <td class="course-name">{{ mycourse.name }}</td>
                     <!--<td class="center">{{ mycourse.grade }}</td>--> <!--Grade vill inte!!-->
                     <td class="center">
-                        <button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>
-                        <button (click)="editGrade(mycourse)">Redigera Betyg</button>
+                        <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>
+                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
                 </tr>
             </ng-container>
         </tbody>
