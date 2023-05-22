@@ -14,7 +14,7 @@
     </div>
 
     <div class="add-course-container">
-        <app-add-my-course (courseAdded)="onCourseAdded($event)"></app-add-my-course>
+        <app-add-my-course (courseAdded)="onCourseAdded()"></app-add-my-course>
        
     </div>   
     
@@ -42,6 +42,7 @@
                         <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
                     </td>
                     <td class="center">
+                        <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>
                         <!--<button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>-->
                         <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
                       </td>

@@ -3,12 +3,12 @@ import { Course } from '../course'; //TODO:remove?
 import { MyCourse } from '../my-course';
 import { BackendService } from '../backend.service';
 import { AddMyCourseComponent } from '../add-my-course/add-my-course.component';
-
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-my-courses',
   templateUrl: './my-courses.component.html',
-  styleUrls: ['./my-courses.component.css'],  
+  styleUrls: ['./my-courses.component.css'], 
   //declarations: [AddMyCourseComponent]
 })
 
@@ -23,7 +23,7 @@ export class MyCoursesComponent implements OnInit{
   grades: string[] = [];
   selectedGrade: string = "";
 
-  constructor(private backendService: BackendService) {}
+  constructor(private backendService: BackendService, private changeDetectorRef: ChangeDetectorRef) {}
 
   /**
    * Initializes the component and fetches courses and grades from the backend service
@@ -34,10 +34,11 @@ export class MyCoursesComponent implements OnInit{
     this.getGrades();    
   }
 
-  onCourseAdded(newCourse: any): void {
-    this.mycourses.push(newCourse);
-    this.backendService.getMyCourses().subscribe(courses => {
-      this.mycourses = courses;
+  onCourseAdded(): void {
+    this.backendService.getCourses().subscribe(
+      (courses) => {
+        this.mycourses = courses; // Uppdatera mycourses-arrayen med de uppdaterade kurserna från backend
+        this.changeDetectorRef.detectChanges(); // Tvinga en uppdatering av komponentens vy
     });
   }
 
@@ -181,10 +182,8 @@ async deleteMyCourse(courseCode: string, mycourse: MyCourse): Promise<any> {
     console.error("Failed to remove course:", error);
   }
 
-
-
-
 }
+
 
   /*
   onSearch(searchTerm: string): void {
