@@ -1,1 +1,16 @@
-<p>add-my-course works!</p>
+<main>
+    <h2>Lägg till kurs</h2>
+    <form (ngSubmit)="addCourse()">
+        <label for="courseCode">Kurskod:</label>
+        <input type="text" id="courseCode" [(ngModel)]="courseCode" name="courseCode">
+  
+        <label for="grade">Betyg:</label>
+        <select id="grade" [(ngModel)]="selectedGrade" name="grade">
+            <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
+        </select>
+  
+        <button type="submit">Lägg till</button>
+    </form>
+
+</main>
+
