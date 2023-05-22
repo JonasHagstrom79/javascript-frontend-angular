@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { BackendService } from '../backend.service';
+import { Location } from '@angular/common';//TODO:remove?
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-my-course',
@@ -11,11 +13,13 @@ export class AddMyCourseComponent implements OnInit {
   grades: string[] = [];
   selectedGrade: string = '';
 
-  constructor(private backendService: BackendService) { }
+  constructor(private backendService: BackendService, private router: Router) { }
 
   ngOnInit(): void {
     this.getGrades();
   }
+
+  @Output() courseAdded: EventEmitter<any> = new EventEmitter<any>();
 
   //async getGrades(): Promise<void> {
   //  this.grades = await this.backendService.getGrades();
@@ -35,6 +39,10 @@ export class AddMyCourseComponent implements OnInit {
     };
 
     await this.backendService.addCourse(newCourse).toPromise();
-  }
+    this.router.navigateByUrl('/mycourses', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/mycourses']);
+  });
+
+}
 
 }
