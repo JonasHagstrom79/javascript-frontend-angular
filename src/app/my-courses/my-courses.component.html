@@ -14,38 +14,32 @@
     </div>
 
     <div class="add-course-container">
-        <app-add-my-course (courseAdded)="onCourseAdded()"></app-add-my-course>
-       
-    </div>   
-    
+        <app-add-my-course (courseAdded)="onCourseAdded()"></app-add-my-course>       
+    </div>    
 
     <table>
         <thead>
             <tr>
                 <td>Kurskod</td>
                 <td class="course-name">Namn</td>
-                <td class="center">Mitt betyg</td>
-                <!--<td class="center">Åtgärder</td>-->
+                <td class="center">Mitt betyg</td>                
             </tr>
         </thead>
         <tbody id="courses_table">
             <ng-container *ngIf="showAllMyCourses">
                 <tr *ngFor="let mycourse of mycourses">
                     <td>{{ mycourse.courseCode }}</td>
-                    <td class="course-name">{{ mycourse.name }}</td>
-                    <!--<td class="center">{{ mycourse.grade }}</td>-->
+                    <td class="course-name">{{ mycourse.name }}</td>                    
                     <td class="center">
+
                         <select [(ngModel)]="mycourse.grade" (change)="editGrade(mycourse)">
                             <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
                         </select>
-                        <!--<button (click)="removeCourse(mycourse)">Ta bort</button>-->
-                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
+                       
                     </td>
                     <td class="center">
-                        <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>
-                        <!--<button (click)="removeCourse(mycourse, mycourse.courseCode)">Ta bort</button>-->
-                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
-                      </td>
+                        <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>                        
+                    </td>
                 </tr>
             </ng-container>
 
@@ -53,24 +47,16 @@
                 <tr *ngFor="let mycourse of filteredMyCourses">
                     <td>{{ mycourse.courseCode }}</td>
                     <td class="course-name">{{ mycourse.name }}</td>
-                    <!--<td class="center">{{ mycourse.grade }}</td>--> <!--Grade vill inte!!-->
+                    
                     <td class="center">
-                        <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>
-                        <!--<button (click)="editGrade(mycourse)">Redigera Betyg</button>-->
+                        <button (click)="deleteMyCourse(mycourse.courseCode, mycourse)">Delete</button>                        
                     </td>
                 </tr>
             </ng-container>
         </tbody>
     </table>
     <br>
-   <!-- <div>-->
-   <!--     <h3>Lägg till kurs</h3>-->
-   <!--     <form id="newMyCourse">-->
-   <!--         <label>Kurskod: <input type="text" name="courseCode" placeholder="ange kurskod"/></label>-->					
-    <!--        <label>Betyg: <select id="newMyCourseSelect" name="grade"></select></label>-->
-    <!--        <input type="button" id="newMyCourseSubmit" value="Lägg till kurs"/>-->
-    <!--    </form>-->
-    <!--</div>-->	
+
 </main>
 <footer>
     <p class="center">

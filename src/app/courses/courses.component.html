@@ -10,9 +10,8 @@
 
 <main>
     <div class="search-container">
-        <!--HÄR ÄR JAG, FÅ IN KURSERNA NÄR MAN SKRIVER I SÖKRUTAN--> 
-        <!--<app-search-course (search)="onSearch($event)"></app-search-course>-->
-        <app-search-course (searchQuery)="onSearchQueryReceived($event)"></app-search-course>
+      
+      <app-search-course (searchQuery)="onSearchQueryReceived($event)"></app-search-course>
         
     </div>
     
@@ -21,9 +20,7 @@
             <tr>
                 <td>Kurskod</td>
                 <td class="course-name">Namn</td>
-                <td class="course-subject">Ämne</td>
-                <!--<td></td>-->
-                <!--<td>hp</td>-->
+                <td class="course-subject">Ämne</td>               
                 <td>Instutition</td>
             </tr>
         </thead>
@@ -32,9 +29,7 @@
                 <tr *ngFor="let course of courses">
                   <td>{{ course.courseCode }}</td>
                   <td class="course-name">{{ course.name }}</td>
-                  <td class="course-subject">{{ course.subjectCode }}</td>
-                  <!--<td>{{ course.progression }}</td>-->
-                  <!--<td>{{ course.points }}</td>-->
+                  <td class="course-subject">{{ course.subjectCode }}</td>                  
                   <td>{{ course.institutionCode }}</td>
                 </tr>
               </ng-container>
@@ -43,9 +38,7 @@
                 <tr *ngFor="let course of filteredCourses">
                   <td>{{ course.courseCode }}</td>
                   <td class="course-name">{{ course.name }}</td>
-                  <td class="course-subject">{{ course.subjectCode }}</td>
-                  <!--<td>{{ course.progression }}</td>-->
-                  <!--<td>{{ course.points }}</td>-->
+                  <td class="course-subject">{{ course.subjectCode }}</td>                  
                   <td>{{ course.institutionCode }}</td>
                 </tr>
               </ng-container>
@@ -60,9 +53,4 @@
         <a href="http://localhost:3000/api/courses" target="blank">miun-db.json</a>.
     </p>
 </footer>
-<!--<h2>Kurser</h2>
-<ul>
-  <li *ngFor="let course of courses">
-    {{ course.name }} - {{ course.code }}
-  </li>
-</ul>-->
+
