@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { BackendService } from '../backend.service';
-import { Location } from '@angular/common';//TODO:remove?
 import { Router } from '@angular/router';
+import { MyCourse } from '../my-course';
 
 @Component({
   selector: 'app-add-my-course',
@@ -10,10 +10,12 @@ import { Router } from '@angular/router';
 })
 export class AddMyCourseComponent implements OnInit {
   courseCode: string = '';
+  errorMessage: string = '';
+  myCourses: MyCourse[] = [];
   grades: string[] = [];
   selectedGrade: string = '';
 
-  constructor(private backendService: BackendService, private router: Router) { }
+  constructor(private backendService: BackendService) { }
 
   ngOnInit(): void {
     this.getGrades();
@@ -21,28 +23,57 @@ export class AddMyCourseComponent implements OnInit {
 
   @Output() courseAdded: EventEmitter<any> = new EventEmitter<any>();
 
-  //async getGrades(): Promise<void> {
-  //  this.grades = await this.backendService.getGrades();
-  //}
-
+  /**
+   * Fetches grades from the backend service
+   */
   getGrades(): void {
     this.backendService.getGrades().subscribe(grades => {
       this.grades = grades;
     });
   }
 
+  /**
+   * Adds a course to my courses
+   */
   async addCourse(): Promise<void> {
-    // Skicka den nya kursen till BackendService för att lagra den
+    
+    // Chact that both courseCode and grade are filled in
+    if (!this.courseCode || !this.selectedGrade) {
+      this.errorMessage = 'Du måste fylla i både kurskod och betyg.';
+      return;
+    };
+    
+    // Check that the course code is valid
+    if (this.myCourses.some(myCourse => myCourse.courseCode === this.courseCode)) {
+      this.errorMessage = "Kursen finns redan i mina kurser.";
+      return;
+    }
+    
+    
     const newCourse = {
-      courseCode: this.courseCode,
+      courseCode: this.courseCode.toLocaleUpperCase(),
       grade: this.selectedGrade
     };
 
-    await this.backendService.addCourse(newCourse).toPromise();
-    this.router.navigateByUrl('/mycourses', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/mycourses']);
-  });
+    try {
+      // Send the course to the backend
+      await this.backendService.addCourse(newCourse).toPromise();
+      
+      
+      // Reload the page to update the list of courses
+      location.reload();
+      
+      // Display eror message
+    } catch (error: any) {
+      if (error.error && error.error.error) {
+        this.errorMessage = error.error.error;
+      } else {
+        this.errorMessage = 'Ett fel uppstod. Försök igen senare.';
+      }
+    }
+    
+  };
 
-}
+
 
 }

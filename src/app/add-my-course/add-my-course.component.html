@@ -8,6 +8,9 @@
         <select id="grade" [(ngModel)]="selectedGrade" name="grade">
             <option *ngFor="let grade of grades" [value]="grade">{{ grade }}</option>
         </select>
+
+        <!-- Error-message -->
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
   
         <button type="submit">Lägg till</button>
     </form>
